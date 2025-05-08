@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Business Concept Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Page & container backgrounds */
+      --bg-page:           #E0F7FA;
+      --bg-container:      #FFFFFF;
+
+      /* Tabs (Step headers) */
+      --tab-step-1:        #64B5F6;
+      --tab-step-2:        #2196F3;
+      --tab-step-3:        #1E88E5;
+
+      /* Buttons */
+      --button-bg:         #1565C0;
+      --button-hover-bg:   #1E88E5;
+
+      /* Progress bar */
+      --progress-bg:       #90CAF9;
+      --progress-fill:     #42A5F5;
+
+      /* Text colors */
+      --text-primary:      #212121;
+      --text-secondary:    #757575;
+
+      /* Accent */
+      --accent:            #F06292;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: var(--bg-container);
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    header { text-align: center; margin-bottom: 30px; }
+    h1 {
+      font-size: 28px; font-weight: 600; margin-bottom: 10px;
+      background: linear-gradient(90deg, var(--tab-step-2), var(--accent));
+      -webkit-background-clip: text; color: transparent;
+    }
+    .description { color: var(--text-secondary); margin-bottom: 30px; }
+    .progress-container { margin-bottom: 30px; }
+    .progress-bar {
+      width: 100%; height: 8px; background-color: var(--progress-bg);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress {
+      height: 100%; width: 0;
+      background-color: var(--progress-fill);
+      border-radius: 4px; transition: width 0.3s ease;
+    }
+    .progress-steps {
+      display: flex; justify-content: space-between; margin-top: 8px;
+    }
+    .step {
+      font-size: 12px; color: var(--text-secondary);
+      text-align: center; width: 20%;
+    }
+    .step.active { color: var(--tab-step-2); font-weight: 600; }
+    .step.completed { color: var(--accent); }
+    .tabs { margin-bottom: 20px; }
+    .tab-content {
+      display: none; background-color: var(--bg-container);
+      border-radius: 10px; padding: 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .tab-content.active { display: block; }
+    .form-group { margin-bottom: 20px; }
+    label {
+      display: block; margin-bottom: 8px; font-weight: 500;
+      color: var(--text-primary);
+    }
+    input[type="text"], textarea, select {
+      width: 100%; padding: 12px 15px;
+      border: 1px solid var(--text-secondary);
+      border-radius: 6px; background-color: var(--bg-page);
+      color: var(--text-primary); font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none; border-color: var(--tab-step-1);
+      box-shadow: 0 0 0 2px rgba(100,181,246,0.2);
+    }
+    textarea { resize: vertical; min-height: 100px; }
+    .buttons {
+      display: flex; justify-content: space-between; margin-top: 30px;
+    }
+    button {
+      background-color: var(--button-bg); color: #fff; border: none;
+      border-radius: 6px; padding: 12px 24px;
+      font-size: 16px; font-weight: 500; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover { background-color: var(--button-hover-bg); transform: translateY(-2px); }
+    button:disabled {
+      background-color: var(--text-secondary); cursor: not-allowed;
+    }
+    .btn-back { background-color: var(--text-secondary); }
+    .btn-back:hover { background-color: var(--text-primary); }
+    .btn-save { background-color: var(--accent); }
+    .btn-save:hover { background-color: #EC407A; }
+    .success-message {
+      display: none; text-align: center; margin-top: 20px;
+      padding: 15px; background-color: rgba(240,98,146,0.1);
+      border: 1px solid var(--accent); border-radius: 6px;
+      color: var(--accent);
+    }
+    .summary-box {
+      background-color: var(--bg-page); padding: 20px;
+      border-radius: 8px; margin-bottom: 20px;
+    }
+    .summary-box h3 { margin-bottom: 10px; color: var(--text-primary); }
+    @media screen and (max-width: 768px) {
+      .container { padding: 15px; }
+      .buttons { flex-direction: column; gap: 15px; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Interactive Business Concept Builder</h1>
+      <p class="description">Follow the steps to build your food-business concept.</p>
+    </header>
+
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress" id="progress-bar"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step active" data-step="1">Step 1</div>
+        <div class="step" data-step="2">Step 2</div>
+        <div class="step" data-step="3">Step 3</div>
+        <div class="step" data-step="4">Step 4</div>
+        <div class="step" data-step="5">Step 5</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <!-- Step 1 -->
+      <div class="tab-content active" id="step1">
+        <h2>✨ Step 1: Distill Your Passion</h2>
+        <div class="form-group">
+          <label for="passion-area">What part of the food industry?</label>
+          <select id="passion-area" required>
+            <option value="" disabled selected>Choose an option</option>
+            <option value="cooking">Cooking</option>
+            <option value="baking">Baking</option>
+            <option value="hosting">Hosting &amp; Service</option>
+            <option value="local">Local Culinary Culture</option>
+            <option value="international">International Cuisine</option>
+            <option value="drinks">Beverages &amp; Drinks</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="passion-details">Describe what excites you:</label>
+          <textarea id="passion-details" placeholder="Your excitement..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="one-sentence">Concept in one sentence:</label>
+          <input type="text" id="one-sentence" placeholder="I want to create..." required>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" disabled>Back</button>
+          <button class="btn-next" onclick="nextStep(1)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="tab-content" id="step2">
+        <h2>🎯 Step 2: Market Opportunity</h2>
+        <div class="form-group">
+          <label for="market-gap">What's missing locally?</label>
+          <textarea id="market-gap" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Emerging trends:</label>
+          <div class="checkbox-container">
+            <input type="checkbox" id="trend-health"><label for="trend-health">Health</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="trend-sustainability"><label for="trend-sustainability">Sustainability</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="trend-authenticity"><label for="trend-authenticity">Authenticity</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="trend-convenience"><label for="trend-convenience">Convenience</label>
+          </div>
+          <div class="checkbox-container">
+            <input type="checkbox" id="trend-experience"><label for="trend-experience">Experience</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="other-trends">Other trends:</label>
+          <input type="text" id="other-trends">
+        </div>
+        <div class="form-group">
+          <label for="area-scan">Scan your area:</label>
+          <textarea id="area-scan" required></textarea>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" onclick="prevStep(2)">Back</button>
+          <button class="btn-next" onclick="nextStep(2)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="tab-content" id="step3">
+        <h2>💎 Step 3: Value Proposition</h2>
+        <div class="form-group">
+          <label for="unique-offering">Your unique offering:</label>
+          <textarea id="unique-offering" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Three unique points:</label>
+          <input type="text" id="unique-point1" placeholder="Point 1" required>
+          <input type="text" id="unique-point2" placeholder="Point 2" required>
+          <input type="text" id="unique-point3" placeholder="Point 3" required>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" onclick="prevStep(3)">Back</button>
+          <button class="btn-next" onclick="nextStep(3)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="tab-content" id="step4">
+        <h2>🛠 Step 4: Target &amp; Pain</h2>
+        <div class="form-group">
+          <label for="target-customer">Who is your customer?</label>
+          <textarea id="target-customer" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="pain-point">Pain point:</label>
+          <input type="text" id="pain-point" required>
+        </div>
+        <div class="form-group">
+          <label>Value model:</label>
+          <input type="text" id="who-i-serve" placeholder="Who I serve" required>
+          <input type="text" id="with-what" placeholder="With what" required>
+          <input type="text" id="unique-advantage" placeholder="Advantage" required>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" onclick="prevStep(4)">Back</button>
+          <button class="btn-next" onclick="nextStep(4)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="tab-content" id="step5">
+        <h2>🛤 Step 5: Action Plan</h2>
+        <div class="form-group">
+          <label>Five steps:</label>
+          <input type="text" id="action1" required>
+          <input type="text" id="action2" required>
+          <input type="text" id="action3" required>
+          <input type="text" id="action4" required>
+          <input type="text" id="action5" required>
+        </div>
+        <div class="form-group">
+          <label for="timeline">Timeline:</label>
+          <input type="text" id="timeline">
+        </div>
+        <div class="form-group">
+          <label for="resources">Resources:</label>
+          <textarea id="resources"></textarea>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" onclick="prevStep(5)">Back</button>
+          <button class="btn-save" onclick="saveAndFinish()">Save &amp; Finish</button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="tab-content" id="summary">
+        <h2>🎯 Summary</h2>
+        <div class="summary-box">
+          <h3>Business Idea</h3>
+          <p><strong>Passion:</strong> <span id="summary-passion"></span></p>
+          <p><strong>Concept:</strong> <span id="summary-concept"></span></p>
+        </div>
+        <div class="summary-box">
+          <h3>Market</h3>
+          <p><strong>Gap:</strong> <span id="summary-gap"></span></p>
+          <p><strong>Trends:</strong> <span id="summary-trends"></span></p>
+        </div>
+        <div class="summary-box">
+          <h3>Value</h3>
+          <p><strong>Offering:</strong> <span id="summary-offering"></span></p>
+          <ul id="summary-unique-points"></ul>
+        </div>
+        <div class="summary-box">
+          <h3>Target &amp; Pain</h3>
+          <p><strong>Customer:</strong> <span id="summary-customer"></span></p>
+          <p><strong>Pain:</strong> <span id="summary-pain"></span></p>
+        </div>
+        <div class="summary-box">
+          <h3>Action Plan</h3>
+          <ol id="summary-actions"></ol>
+        </div>
+        <div class="buttons">
+          <button class="btn-back" onclick="backToEdit()">Edit</button>
+          <button class="btn-save" onclick="downloadPDF()">Download PDF</button>
+        </div>
+        <div class="success-message" id="success-message">
+          <p>Your concept has been saved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Clear any previous data
+    localStorage.removeItem('businessConcept');
+
+    let currentStep = 1, totalSteps = 5;
+
+    function showTab(step) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(step === 'summary' ? 'summary' : 'step' + step).classList.add('active');
+      updateProgress(step);
+    }
+
+    function updateProgress(step) {
+      if (step === 'summary') {
+        document.getElementById('progress-bar').style.width = '100%';
+        document.querySelectorAll('.step').forEach(s => s.classList.add('completed'));
+        return;
+      }
+      const pct = (step / totalSteps) * 100;
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.querySelectorAll('.step').forEach(s => {
+        const n = +s.dataset.step;
+        s.classList.toggle('completed', n < step);
+        s.classList.toggle('active', n === step);
+      });
+    }
+
+    function validateStep(step) {
+      let ok = true;
+      document.querySelectorAll('#step' + step + ' [required]').forEach(inp => {
+        if (!inp.value.trim()) {
+          inp.style.borderColor = 'var(--accent)';
+          ok = false;
+        } else {
+          inp.style.borderColor = 'var(--text-secondary)';
+        }
+      });
+      return ok;
+    }
+
+    function saveStepData(step) {
+      const d = JSON.parse(localStorage.getItem('businessConcept') || '{}');
+      if (step === 1) {
+        d.passionArea = document.getElementById('passion-area').value;
+        d.passionDetails = document.getElementById('passion-details').value;
+        d.oneSentence = document.getElementById('one-sentence').value;
+      }
+      if (step === 2) {
+        d.marketGap = document.getElementById('market-gap').value;
+        d.trends = [];
+        ['health','sustainability','authenticity','convenience','experience'].forEach(t => {
+          if (document.getElementById('trend-' + t).checked) d.trends.push(t);
+        });
+        d.otherTrends = document.getElementById('other-trends').value;
+        d.areaScan = document.getElementById('area-scan').value;
+      }
+      if (step === 3) {
+        d.uniqueOffering = document.getElementById('unique-offering').value;
+        d.uniquePoints = [
+          document.getElementById('unique-point1').value,
+          document.getElementById('unique-point2').value,
+          document.getElementById('unique-point3').value
+        ];
+      }
+      if (step === 4) {
+        d.targetCustomer = document.getElementById('target-customer').value;
+        d.painPoint = document.getElementById('pain-point').value;
+        d.valueProposition = {
+          whoIServe: document.getElementById('who-i-serve').value,
+          withWhat: document.getElementById('with-what').value,
+          uniqueAdvantage: document.getElementById('unique-advantage').value
+        };
+      }
+      if (step === 5) {
+        d.actionPlan = [
+          document.getElementById('action1').value,
+          document.getElementById('action2').value,
+          document.getElementById('action3').value,
+          document.getElementById('action4').value,
+          document.getElementById('action5').value
+        ];
+        d.timeline = document.getElementById('timeline').value;
+        d.resources = document.getElementById('resources').value;
+      }
+      localStorage.setItem('businessConcept', JSON.stringify(d));
+    }
+
+    function nextStep(s) {
+      if (!validateStep(s)) {
+        alert('Please fill all required fields.');
+        return;
+      }
+      saveStepData(s);
+      currentStep = s + 1;
+      if (currentStep > totalSteps) showSummary();
+      else showTab(currentStep);
+    }
+
+    function prevStep(s) {
+      saveStepData(s);
+      currentStep = s - 1;
+      showTab(currentStep);
+    }
+
+    function showSummary() {
+      const d = JSON.parse(localStorage.getItem('businessConcept') || '{}');
+      document.getElementById('summary-passion').textContent = d.passionArea || '';
+      document.getElementById('summary-concept').textContent = d.oneSentence || '';
+      document.getElementById('summary-gap').textContent = d.marketGap || '';
+      document.getElementById('summary-trends').textContent =
+        (d.trends || []).join(', ') + (d.otherTrends ? ', ' + d.otherTrends : '');
+      document.getElementById('summary-offering').textContent = d.uniqueOffering || '';
+      const up = document.getElementById('summary-unique-points');
+      up.innerHTML = '';
+      (d.uniquePoints || []).forEach(pt => {
+        const li = document.createElement('li');
+        li.textContent = pt;
+        up.appendChild(li);
+      });
+      document.getElementById('summary-customer').textContent = d.targetCustomer || '';
+      document.getElementById('summary-pain').textContent = d.painPoint || '';
+      const sa = document.getElementById('summary-actions');
+      sa.innerHTML = '';
+      (d.actionPlan || []).forEach(a => {
+        const li = document.createElement('li');
+        li.textContent = a;
+        sa.appendChild(li);
+      });
+      showTab('summary');
+    }
+
+    function saveAndFinish() {
+      if (!validateStep(5)) {
+        alert('Please fill all required fields.');
+        return;
+      }
+      saveStepData(5);
+      showSummary();
+      document.getElementById('success-message').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('success-message').style.display = 'none';
+      }, 3000);
+    }
+
+    function backToEdit() {
+      showTab(1);
+    }
+
+    function downloadPDF() {
+      alert('PDF generation not implemented.');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showTab(1);
+    });
+  </script>
+</body>
+</html>

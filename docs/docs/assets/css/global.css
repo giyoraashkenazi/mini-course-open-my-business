@@ -1,0 +1,12 @@
+:root {
+    --bg-page: #E0F7FA;
+    --bg-container: #FFFFFF;
+    /* … כל המשתנים האחרים … */
+  }
+  h1 {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* … שאר החוקים המשותפים … */
+  
