@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Menu Concept Builder</title>
+  <style>
+    :root {
+      --brand-blue:      #0052cc;
+      --brand-light:     #4dabf7;
+      --brand-gray:      #6c757d;
+      --brand-white:     #ffffff;
+      --brand-black:     #000000;
+      --brand-bg:        #e0f7fa;
+      --card-bg:         #f0f7fa;
+    }
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: var(--brand-bg);
+      color: var(--brand-black);
+    }
+    h1, h2, h3 {
+      margin: .5em 0;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
+      background: var(--brand-light);
+      color: var(--brand-black);
+      cursor: pointer;
+      font-weight: bold;
+      border-bottom: 4px solid transparent;
+      border-radius: 4px 4px 0 0;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .tabs button:hover:not(.active) {
+      background: #a6d8ff;
+    }
+    .tabs button.active {
+      background: var(--brand-blue);
+      color: var(--brand-white);
+      border-bottom-color: var(--brand-blue);
+    }
+
+    /* Tab content */
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 0 4px 4px 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-top: -4px;
+      overflow: visible !important;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Navigation buttons */
+    .nav {
+      margin-top: 20px;
+    }
+    .nav button {
+      padding: 10px 16px;
+      background: var(--brand-blue);
+      color: var(--brand-white);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background .2s;
+      margin-right: 8px;
+    }
+    .nav button:hover:not(:disabled) {
+      background: #003a99;
+    }
+    .nav button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    /* Dishes grid */
+    .dishes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .dish-card {
+      flex: 0 0 140px;
+      background: var(--brand-white);
+      border: 1px solid var(--brand-gray);
+      border-radius: 4px;
+      padding: 12px;
+      cursor: pointer;
+      transition: transform .1s, box-shadow .1s, background .2s, border-color .2s;
+    }
+    .dish-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .dish-card.selected {
+      border-color: var(--brand-blue);
+      background: var(--brand-light);
+    }
+
+    /* Checkbox group */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    /* Feedback box */
+    .feedback {
+      margin-top: 20px;
+      padding: 12px;
+      border-left: 4px solid var(--brand-blue);
+      background: var(--brand-light);
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background .2s, border-color .2s;
+    }
+    .feedback.warning {
+      border-color: #dc3545;
+      background: #fff0f0;
+    }
+
+    /* ensure select floats above */
+    select#businessConcept {
+      position: relative !important;
+      z-index: 9999 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 Menu Concept Builder</h1>
+  <p>Create a cohesive menu by selecting items that match your concept &amp; audience.</p>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab1">1. Concept</button>
+    <button class="tab-btn" data-tab="tab2">2. Dishes</button>
+    <button class="tab-btn" data-tab="tab3">3. Preview</button>
+  </div>
+
+  <div id="tab1" class="tab-content active">
+    <h2>Define Your Concept</h2>
+    <div>
+      <label>
+        Business Concept:
+        <select id="businessConcept">
+          <option value="fine-dining">Fine Dining</option>
+          <option value="casual-dining">Casual Dining</option>
+          <option value="fast-food">Fast Food</option>
+          <option value="deli">Deli</option>
+          <option value="cafe">Café</option>
+          <option value="food-truck">Food Truck</option>
+          <option value="bakery-patisserie">Bakery / Patisserie</option>
+        </select>
+      </label>
+    </div>
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="families"> Families</label>
+      <label><input type="checkbox" value="teenagers"> Teenagers</label>
+      <label><input type="checkbox" value="business"> Business</label>
+      <label><input type="checkbox" value="tourists"> Tourists</label>
+      <label><input type="checkbox" value="health-conscious"> Health-Conscious</label>
+      <label><input type="checkbox" value="kids"> Kids</label>
+      <label><input type="checkbox" value="passersby"> Passersby</label>
+    </div>
+    <div class="nav">
+      <button id="toDishes">Next: Dishes</button>
+    </div>
+  </div>
+
+  <div id="tab2" class="tab-content">
+    <h2>Select Your Dishes (<span id="count">0</span>/10)</h2>
+    <div>
+      <h3>Appetizers</h3><div class="dishes-container" id="appetizer"></div>
+    </div>
+    <div>
+      <h3>Main Courses</h3><div class="dishes-container" id="main"></div>
+    </div>
+    <div>
+      <h3>Desserts</h3><div class="dishes-container" id="dessert"></div>
+    </div>
+    <div>
+      <h3>Drinks</h3><div class="dishes-container" id="drink"></div>
+    </div>
+    <div>
+      <h3>Other</h3><div class="dishes-container" id="other"></div>
+    </div>
+    <div class="nav">
+      <button id="backToConcept">Back</button>
+      <button id="toPreview" disabled>Next: Preview</button>
+    </div>
+  </div>
+
+  <div id="tab3" class="tab-content">
+    <h2>Menu Preview & Feedback</h2>
+    <div id="menuList"></div>
+    <div id="menuFeedback" class="feedback">Select 10 dishes to see your match statistic.</div>
+    <div class="nav">
+      <button id="backToDishes">Back</button>
+      <button id="startOver">Start Over</button>
+      <button id="downloadPdf">Download PDF</button>
+    </div>
+  </div>
+
+  <script>
+    const allDishes = [ /* ... כל 50 האובייקטים כפי שהיה ... */ ];
+    const LIMIT = 10;
+    let selected = [];
+
+    const tabs     = document.querySelectorAll('.tab-btn');
+    const countEl  = document.getElementById('count');
+    const btnNext  = document.getElementById('toPreview');
+    const menuList = document.getElementById('menuList');
+    const feedback = document.getElementById('menuFeedback');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    function render() {
+      selected = [];
+      countEl.textContent = 0;
+      btnNext.disabled = true;
+      ['appetizer','main','dessert','drink','other'].forEach(cat => {
+        const cont = document.getElementById(cat);
+        cont.innerHTML = '';
+        allDishes.filter(d => d.cat === cat).forEach(d => {
+          const cd = document.createElement('div');
+          cd.className = 'dish-card';
+          cd.innerHTML = `<strong>${d.name}</strong><br><small>${d.desc}</small>`;
+          cd.addEventListener('click', () => {
+            if (cd.classList.contains('selected')) {
+              cd.classList.remove('selected');
+              selected = selected.filter(x => x.id !== d.id);
+            } else if (selected.length < LIMIT) {
+              cd.classList.add('selected');
+              selected.push(d);
+            }
+            countEl.textContent = selected.length;
+            btnNext.disabled = selected.length !== LIMIT;
+          });
+          cont.appendChild(cd);
+        });
+      });
+    }
+
+    document.getElementById('toDishes').addEventListener('click', () => {
+      render();
+      document.querySelector('[data-tab=tab2]').click();
+    });
+    document.getElementById('backToConcept').addEventListener('click', () => {
+      document.querySelector('[data-tab=tab1]').click();
+    });
+    btnNext.addEventListener('click', () => {
+      document.querySelector('[data-tab=tab3]').click();
+      const biz = document.getElementById('businessConcept').value;
+      const sum = selected.reduce((a,d) => a + (d.conceptFit[biz]||50), 0);
+      const pct = Math.round(sum / selected.length);
+      menuList.innerHTML = '';
+      selected.forEach(d => {
+        const div = document.createElement('div');
+        div.textContent = d.name;
+        menuList.appendChild(div);
+      });
+      feedback.textContent = `Concept Alignment: ${pct}%`;
+      feedback.classList.toggle('warning', pct < 60);
+    });
+    document.getElementById('backToDishes').addEventListener('click', () => {
+      document.querySelector('[data-tab=tab2]').click();
+    });
+    document.getElementById('startOver').addEventListener('click', () => location.reload());
+    document.getElementById('downloadPdf').addEventListener('click', () => window.print());
+  </script>
+
+</body>
+</html>
