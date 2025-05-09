@@ -1,9 +1,7 @@
 # mini-course-open-my-business
 interactive modules 
 - [Concept Builder 1.1](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/concept-builder-1-1/)
-## Brand Color Palette
 
-```css
 :root {
   /* Page & container backgrounds */
   --bg-page:       #E0F7FA;
