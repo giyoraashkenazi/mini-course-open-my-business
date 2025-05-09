@@ -1,5 +1,5 @@
 {
   "liveServer.settings.host": "0.0.0.0",
-  "liveServer.settings.port": 5500,
-  "liveServer.settings.root": "docs"
+  "liveServer.settings.port": 5500, // or 5501 if that's what it usually runs on
+  "liveServer.settings.root": "/" //  <-- שנה לזה!
 }
