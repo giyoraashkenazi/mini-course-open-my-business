@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 1.2 – Choosing the Right Location</title>
+  <style>
+    /* ===========
+       Brand Palette
+       =========== */
+    :root {
+      /* Page & container backgrounds */
+      --bg-page:       #E0F7FA;
+      --bg-container:  #FFFFFF;
+
+      /* Step headers (tabs) */
+      --tab-step-1:    #64B5F6;
+      --tab-step-2:    #2196F3;
+      --tab-step-3:    #1E88E5;
+
+      /* From menu builder */
+      --brand-blue:    #0052cc;
+      --brand-light:   #4dabf7;
+      --brand-gray:    #6c757d;
+      --brand-white:   #ffffff;
+      --brand-black:   #000000;
+      --brand-bg:      #e0f7fa;
+      --card-bg:       #f0f7fa;
+
+      /* Text */
+      --text-main:     var(--brand-black);
+      --text-secondary:var(--brand-gray);
+
+      /* Accent */
+      --accent:        var(--brand-blue);
+      --accent-hover:  var(--brand-light);
+      --surface:       var(--bg-container);
+      --surface-alt:   var(--card-bg);
+    }
+
+    /* =======================
+       Global Reset & Base
+       ======================= */
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      background: var(--bg-page);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    /* =======================
+       Controls Panel
+       ======================= */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .controls label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .controls select {
+      margin-top: 6px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--surface-alt);
+      border-radius: 6px;
+      color: var(--text-main);
+      min-width: 180px;
+      transition: border-color .2s;
+    }
+    .controls select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* =======================
+       Score Table
+       ======================= */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--surface-alt);
+    }
+    th {
+      background: var(--surface-alt);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    tr:last-child td { border-bottom: none; }
+    .total-row {
+      background: var(--surface-alt);
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    /* =======================
+       Insights Box
+       ======================= */
+    .insights {
+      background: var(--surface);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 32px;
+    }
+    .insights h2 {
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+    .insights ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .insights li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      color: var(--text-main);
+    }
+    .insights li::before {
+      content: "▶";
+      margin-right: 8px;
+      color: var(--accent);
+    }
+
+    /* =======================
+       Export Button
+       ======================= */
+    .export-btn {
+      display: block;
+      margin: 0 auto 40px;
+      background: var(--accent);
+      color: var(--brand-white);
+      border: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .export-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    /* =======================
+       Responsive
+       ======================= */
+    @media (max-width: 600px) {
+      .controls { flex-direction: column; align-items: center; }
+      table, .insights { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Module 1.2 – Choosing the Right Location</h1>
+  <p class="subtitle">Select your audience, concept &amp; location to see live match scores, insights &amp; export.</p>
+
+  <div class="controls">
+    <label>
+      Audience Segment
+      <select id="audience">
+        <option value="business">Business Professionals</option>
+        <option value="families">Families</option>
+        <option value="students">Students</option>
+        <option value="tourists">Tourists</option>
+        <option value="health">Health-Conscious</option>
+      </select>
+    </label>
+    <label>
+      Concept
+      <select id="concept">
+        <option value="fast-food">Fast Food</option>
+        <option value="cafe">Cafe</option>
+        <option value="casual">Casual Dining</option>
+        <option value="fine-dining">Fine Dining</option>
+        <option value="food-truck">Food Truck</option>
+      </select>
+    </label>
+    <label>
+      Location Type
+      <select id="location">
+        <option value="neighborhood">Neighborhood</option>
+        <option value="commercial">Commercial Area</option>
+        <option value="industrial">Industrial Area</option>
+        <option value="food-court">Food Court</option>
+        <option value="street-corner">Street Corner</option>
+        <option value="mall">Shopping Mall</option>
+        <option value="campus">University Campus</option>
+      </select>
+    </label>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Match %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Audience ↔ Concept</td><td id="match-ac">–</td></tr>
+      <tr><td>Audience ↔ Location</td><td id="match-al">–</td></tr>
+      <tr><td>Concept ↔ Location</td><td id="match-cl">–</td></tr>
+      <tr><td>Operational Cost Weight</td><td id="match-oc">50 %</td></tr>
+      <tr class="total-row"><td>Total Compatibility</td><td id="match-total">–</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insights">
+    <h2>Insights</h2>
+    <ul id="insights-list">
+      <li>–</li>
+      <li>–</li>
+      <li>–</li>
+      <li>–</li>
+    </ul>
+  </div>
+
+  <button class="export-btn" onclick="window.print()">Export as PDF</button>
+
+  <script>
+    // score maps (unchanged)
+    const audienceConcept = {
+      business:{'fast-food':20,'cafe':70,'casual':60,'fine-dining':30,'food-truck':50},
+      families:{'fast-food':90,'cafe':60,'casual':80,'fine-dining':40,'food-truck':70},
+      students:{'fast-food':85,'cafe':75,'casual':65,'fine-dining':20,'food-truck':80},
+      tourists:{'fast-food':70,'cafe':80,'casual':75,'fine-dining':65,'food-truck':60},
+      health:{'fast-food':20,'cafe':90,'casual':50,'fine-dining':80,'food-truck':30}
+    };
+    const audienceLocation = {
+      business:{neighborhood:30,commercial:90,industrial:40,'food-court':70,'street-corner':60,mall:80,campus:50},
+      families:{neighborhood:80,commercial:70,industrial:20,'food-court':90,'street-corner':50,mall:85,campus:60},
+      students:{neighborhood:50,commercial:60,industrial:10,'food-court':80,'street-corner':40,mall:75,campus:95},
+      tourists:{neighborhood:60,commercial:80,industrial:15,'food-court':85,'street-corner':55,mall:90,campus:45},
+      health:{neighborhood:70,commercial:50,industrial:30,'food-court':40,'street-corner':45,mall:55,campus:65}
+    };
+    const conceptLocation = {
+      'fast-food':{neighborhood:80,commercial:85,industrial:60,'food-court':90,'street-corner':95,mall:80,campus:70},
+      cafe:{neighborhood:70,commercial:75,industrial:30,'food-court':60,'street-corner':65,mall:70,campus:80},
+      casual:{neighborhood:60,commercial:70,industrial:40,'food-court':65,'street-corner':60,mall:75,campus:55},
+      'fine-dining':{neighborhood:50,commercial:60,industrial:20,'food-court':30,'street-corner':25,mall:60,campus:30},
+      'food-truck':{neighborhood:75,commercial:65,industrial:50,'food-court':55,'street-corner':85,mall:50,campus:60}
+    };
+
+    // DOM refs
+    const selA = document.getElementById('audience');
+    const selC = document.getElementById('concept');
+    const selL = document.getElementById('location');
+    const outAC = document.getElementById('match-ac');
+    const outAL = document.getElementById('match-al');
+    const outCL = document.getElementById('match-cl');
+    const outOC = document.getElementById('match-oc');
+    const outT  = document.getElementById('match-total');
+    const list  = document.getElementById('insights-list');
+
+    function updateAll() {
+      const a=selA.value, c=selC.value, l=selL.value;
+      const mAC=audienceConcept[a][c];
+      const mAL=audienceLocation[a][l];
+      const mCL=conceptLocation[c][l];
+      const mOC=50;
+      const total=Math.round((mAC+mAL+mCL+mOC)/4);
+
+      outAC.textContent=`${mAC} %`;
+      outAL.textContent=`${mAL} %`;
+      outCL.textContent=`${mCL} %`;
+      outOC.textContent=`${mOC} %`;
+      outT.textContent=`${total} %`;
+
+      const ins=[
+        `Audience vs Concept: ${mAC}% — ${mAC>75?'Strong':'Weak'} fit.`,
+        `Audience vs Location: ${mAL}% — ${mAL>75?'Ideal':'Suboptimal'}.`,
+        `Concept vs Location: ${mCL}% — ${mCL>75?'Great':'Poor'} synergy.`,
+        `Overall with cost: ${total}%.`
+      ];
+      list.innerHTML = ins.map(i=>`<li>${i}</li>`).join('');
+    }
+
+    selA.addEventListener('change', updateAll);
+    selC.addEventListener('change', updateAll);
+    selL.addEventListener('change', updateAll);
+
+    // initial render
+    updateAll();
+  </script>
+
+</body>
+</html>
