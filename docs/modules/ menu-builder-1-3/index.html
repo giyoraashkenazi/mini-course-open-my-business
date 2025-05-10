@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Menu Concept Builder</title>
   <style>
     :root {
-      --brand-blue:      #0052cc;
-      --brand-light:     #4dabf7;
-      --brand-gray:      #6c757d;
-      --brand-white:     #ffffff;
-      --brand-black:     #000000;
-      --brand-bg:        #e0f7fa;
-      --card-bg:         #f0f7fa;
+      --brand-blue:   #0052cc;
+      --brand-light:  #4dabf7;
+      --brand-gray:   #6c757d;
+      --brand-white:  #ffffff;
+      --brand-black:  #000000;
+      --brand-bg:     #e0f7fa; /* רקע כללי */
+      --card-bg:      #f0f7fa; /* רקע פנלים */
     }
     body {
       font-family: sans-serif;
@@ -21,17 +21,11 @@
       background: var(--brand-bg);
       color: var(--brand-black);
     }
-    h1, h2, h3 {
-      margin: .5em 0;
-    }
-
-    /* Tabs */
+    h1,h2,h3 { margin: .5em 0 }
     .tabs {
       display: flex;
       gap: 8px;
       margin-bottom: 0;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
     }
     .tabs button {
       flex: 1;
@@ -44,7 +38,6 @@
       border-bottom: 4px solid transparent;
       border-radius: 4px 4px 0 0;
       transition: background .2s;
-      white-space: nowrap;
     }
     .tabs button:hover:not(.active) {
       background: #a6d8ff;
@@ -54,8 +47,6 @@
       color: var(--brand-white);
       border-bottom-color: var(--brand-blue);
     }
-
-    /* Tab content */
     .tab-content {
       display: none;
       background: var(--card-bg);
@@ -63,13 +54,8 @@
       border-radius: 0 4px 4px 4px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       margin-top: -4px;
-      overflow: visible !important;
     }
-    .tab-content.active {
-      display: block;
-    }
-
-    /* Navigation buttons */
+    .tab-content.active { display: block }
     .nav {
       margin-top: 20px;
     }
@@ -82,7 +68,6 @@
       cursor: pointer;
       font-size: 1em;
       transition: background .2s;
-      margin-right: 8px;
     }
     .nav button:hover:not(:disabled) {
       background: #003a99;
@@ -91,8 +76,6 @@
       opacity: .5;
       cursor: not-allowed;
     }
-
-    /* Dishes grid */
     .dishes-container {
       display: flex;
       flex-wrap: wrap;
@@ -116,21 +99,18 @@
       border-color: var(--brand-blue);
       background: var(--brand-light);
     }
-
-    /* Checkbox group */
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-top: 10px;
     }
-
-    /* Feedback box */
     .feedback {
       margin-top: 20px;
       padding: 12px;
       border-left: 4px solid var(--brand-blue);
       background: var(--brand-light);
+      color: var(--brand-black);
       border-radius: 4px;
       font-weight: bold;
       transition: background .2s, border-color .2s;
@@ -139,12 +119,6 @@
       border-color: #dc3545;
       background: #fff0f0;
     }
-
-    /* ensure select floats above */
-    select#businessConcept {
-      position: relative !important;
-      z-index: 9999 !important;
-    }
   </style>
 </head>
 <body>
@@ -152,17 +126,18 @@
   <h1>🧠 Menu Concept Builder</h1>
   <p>Create a cohesive menu by selecting items that match your concept &amp; audience.</p>
 
+  <!-- Tabs -->
   <div class="tabs">
     <button class="tab-btn active" data-tab="tab1">1. Concept</button>
     <button class="tab-btn" data-tab="tab2">2. Dishes</button>
     <button class="tab-btn" data-tab="tab3">3. Preview</button>
   </div>
 
+  <!-- Tab 1: Concept -->
   <div id="tab1" class="tab-content active">
     <h2>Define Your Concept</h2>
     <div>
-      <label>
-        Business Concept:
+      <label>Business Concept:
         <select id="businessConcept">
           <option value="fine-dining">Fine Dining</option>
           <option value="casual-dining">Casual Dining</option>
@@ -188,22 +163,28 @@
     </div>
   </div>
 
+  <!-- Tab 2: Dishes -->
   <div id="tab2" class="tab-content">
     <h2>Select Your Dishes (<span id="count">0</span>/10)</h2>
     <div>
-      <h3>Appetizers</h3><div class="dishes-container" id="appetizer"></div>
+      <h3>Appetizers</h3>
+      <div class="dishes-container" id="appetizer"></div>
     </div>
     <div>
-      <h3>Main Courses</h3><div class="dishes-container" id="main"></div>
+      <h3>Main Courses</h3>
+      <div class="dishes-container" id="main"></div>
     </div>
     <div>
-      <h3>Desserts</h3><div class="dishes-container" id="dessert"></div>
+      <h3>Desserts</h3>
+      <div class="dishes-container" id="dessert"></div>
     </div>
     <div>
-      <h3>Drinks</h3><div class="dishes-container" id="drink"></div>
+      <h3>Drinks</h3>
+      <div class="dishes-container" id="drink"></div>
     </div>
     <div>
-      <h3>Other</h3><div class="dishes-container" id="other"></div>
+      <h3>Other</h3>
+      <div class="dishes-container" id="other"></div>
     </div>
     <div class="nav">
       <button id="backToConcept">Back</button>
@@ -211,6 +192,7 @@
     </div>
   </div>
 
+  <!-- Tab 3: Preview -->
   <div id="tab3" class="tab-content">
     <h2>Menu Preview & Feedback</h2>
     <div id="menuList"></div>
@@ -218,12 +200,114 @@
     <div class="nav">
       <button id="backToDishes">Back</button>
       <button id="startOver">Start Over</button>
-      <button id="downloadPdf">Download PDF</button>
     </div>
   </div>
 
   <script>
-    const allDishes = [ /* ... כל 50 האובייקטים כפי שהיה ... */ ];
+    // כל 50 המנות, ללא price
+    const allDishes = [
+      {id:1, name:"Caprese Salad",    desc:"Tomato & mozzarella",  cat:"appetizer",
+        conceptFit:{"fine-dining":80,"casual-dining":90,"fast-food":30,"deli":85,"cafe":85,"food-truck":60,"bakery-patisserie":50}},
+      {id:2, name:"Spicy Tuna Roll",  desc:"Tuna, avocado",        cat:"appetizer",
+        conceptFit:{"fine-dining":75,"casual-dining":85,"fast-food":70,"deli":60,"cafe":50,"food-truck":75,"bakery-patisserie":20}},
+      {id:3, name:"Bruschetta",       desc:"Tomato & basil",       cat:"appetizer",
+        conceptFit:{"fine-dining":70,"casual-dining":85,"fast-food":20,"deli":75,"cafe":75,"food-truck":40,"bakery-patisserie":30}},
+      {id:4, name:"Nachos",           desc:"Cheese & salsa",       cat:"appetizer",
+        conceptFit:{"fine-dining":20,"casual-dining":90,"fast-food":95,"deli":50,"cafe":60,"food-truck":95,"bakery-patisserie":0}},
+      {id:5, name:"Chicken Wings",    desc:"Buffalo style",        cat:"appetizer",
+        conceptFit:{"fine-dining":10,"casual-dining":90,"fast-food":90,"deli":30,"cafe":50,"food-truck":90,"bakery-patisserie":10}},
+      {id:6, name:"Calamari",         desc:"Fried squid",          cat:"appetizer",
+        conceptFit:{"fine-dining":85,"casual-dining":80,"fast-food":20,"deli":40,"cafe":40,"food-truck":30,"bakery-patisserie":0}},
+      {id:7, name:"Hummus & Pita",    desc:"Chickpea dip",         cat:"appetizer",
+        conceptFit:{"fine-dining":60,"casual-dining":90,"fast-food":70,"deli":95,"cafe":90,"food-truck":85,"bakery-patisserie":30}},
+      {id:8, name:"Mozzarella Sticks",desc:"Fried cheese",         cat:"appetizer",
+        conceptFit:{"fine-dining":15,"casual-dining":85,"fast-food":95,"deli":50,"cafe":60,"food-truck":85,"bakery-patisserie":0}},
+      {id:9, name:"Soup of Day",      desc:"Seasonal",             cat:"appetizer",
+        conceptFit:{"fine-dining":75,"casual-dining":85,"fast-food":40,"deli":80,"cafe":85,"food-truck":60,"bakery-patisserie":50}},
+      {id:10,name:"Onion Rings",      desc:"Crispy",               cat:"appetizer",
+        conceptFit:{"fine-dining":10,"casual-dining":80,"fast-food":95,"deli":40,"cafe":60,"food-truck":85,"bakery-patisserie":5}},
+      {id:11,name:"Truffle Risotto",  desc:"Mushroom & truffle",   cat:"main",
+        conceptFit:{"fine-dining":95,"casual-dining":60,"fast-food":10,"deli":20,"cafe":40,"food-truck":5,"bakery-patisserie":0}},
+      {id:12,name:"Grilled Salmon",   desc:"Lemon butter",         cat:"main",
+        conceptFit:{"fine-dining":90,"casual-dining":85,"fast-food":20,"deli":50,"cafe":50,"food-truck":10,"bakery-patisserie":0}},
+      {id:13,name:"Beef Steak",       desc:"12oz ribeye",          cat:"main",
+        conceptFit:{"fine-dining":90,"casual-dining":70,"fast-food":15,"deli":30,"cafe":40,"food-truck":10,"bakery-patisserie":0}},
+      {id:14,name:"Chicken Curry",    desc:"Spicy coconut",        cat:"main",
+        conceptFit:{"fine-dining":60,"casual-dining":90,"fast-food":50,"deli":40,"cafe":60,"food-truck":70,"bakery-patisserie":0}},
+      {id:15,name:"Pad Thai",         desc:"Rice noodles",         cat:"main",
+        conceptFit:{"fine-dining":60,"casual-dining":90,"fast-food":80,"deli":30,"cafe":60,"food-truck":95,"bakery-patisserie":0}},
+      {id:16,name:"Veggie Bowl",      desc:"Quinoa & veg",         cat:"main",
+        conceptFit:{"fine-dining":70,"casual-dining":85,"fast-food":60,"deli":80,"cafe":90,"food-truck":75,"bakery-patisserie":20}},
+      {id:17,name:"Burger Deluxe",    desc:"Cheese & bacon",       cat:"main",
+        conceptFit:{"fine-dining":15,"casual-dining":95,"fast-food":95,"deli":60,"cafe":70,"food-truck":95,"bakery-patisserie":0}},
+      {id:18,name:"Fish & Chips",     desc:"Cod & fries",          cat:"main",
+        conceptFit:{"fine-dining":35,"casual-dining":90,"fast-food":90,"deli":40,"cafe":60,"food-truck":90,"bakery-patisserie":0}},
+      {id:19,name:"Lasagna",          desc:"Beef & cheese",        cat:"main",
+        conceptFit:{"fine-dining":70,"casual-dining":90,"fast-food":40,"deli":50,"cafe":75,"food-truck":30,"bakery-patisserie":0}},
+      {id:20,name:"Taco Trio",        desc:"Beef, chicken, veg",   cat:"main",
+        conceptFit:{"fine-dining":25,"casual-dining":95,"fast-food":95,"deli":40,"cafe":60,"food-truck":98,"bakery-patisserie":0}},
+      {id:21,name:"Tiramisu",         desc:"Cream & coffee",       cat:"dessert",
+        conceptFit:{"fine-dining":85,"casual-dining":90,"fast-food":40,"deli":70,"cafe":90,"food-truck":30,"bakery-patisserie":80}},
+      {id:22,name:"Cheesecake",       desc:"NY style",             cat:"dessert",
+        conceptFit:{"fine-dining":75,"casual-dining":85,"fast-food":50,"deli":80,"cafe":90,"food-truck":40,"bakery-patisserie":85}},
+      {id:23,name:"Chocolate Cake",   desc:"Rich fudge",           cat:"dessert",
+        conceptFit:{"fine-dining":85,"casual-dining":90,"fast-food":50,"deli":60,"cafe":80,"food-truck":40,"bakery-patisserie":75}},
+      {id:24,name:"Gelato Trio",      desc:"3 flavors",            cat:"dessert",
+        conceptFit:{"fine-dining":60,"casual-dining":80,"fast-food":30,"deli":50,"cafe":95,"food-truck":70,"bakery-patisserie":90}},
+      {id:25,name:"Crème Brûlée",     desc:"Caramelized top",      cat:"dessert",
+        conceptFit:{"fine-dining":95,"casual-dining":75,"fast-food":20,"deli":50,"cafe":80,"food-truck":10,"bakery-patisserie":70}},
+      {id:26,name:"Apple Pie",        desc:"Warm slice",           cat:"dessert",
+        conceptFit:{"fine-dining":60,"casual-dining":85,"fast-food":40,"deli":70,"cafe":85,"food-truck":50,"bakery-patisserie":80}},
+      {id:27,name:"Brownie Sundae",   desc:"Ice cream",            cat:"dessert",
+        conceptFit:{"fine-dining":50,"casual-dining":85,"fast-food":70,"deli":50,"cafe":80,"food-truck":60,"bakery-patisserie":60}},
+      {id:28,name:"Fruit Tart",       desc:"Seasonal fruits",      cat:"dessert",
+        conceptFit:{"fine-dining":75,"casual-dining":80,"fast-food":30,"deli":70,"cafe":85,"food-truck":20,"bakery-patisserie":95}},
+      {id:29,name:"Mousse",           desc:"Chocolate/vanilla",    cat:"dessert",
+        conceptFit:{"fine-dining":80,"casual-dining":75,"fast-food":20,"deli":60,"cafe":75,"food-truck":10,"bakery-patisserie":70}},
+      {id:30,name:"Donut & Coffee",   desc:"Flavor of day",        cat:"dessert",
+        conceptFit:{"fine-dining":10,"casual-dining":70,"fast-food":85,"deli":40,"cafe":95,"food-truck":75,"bakery-patisserie":100}},
+      {id:31,name:"Espresso",         desc:"Strong shot",          cat:"drink",
+        conceptFit:{"fine-dining":80,"casual-dining":90,"fast-food":60,"deli":85,"cafe":100,"food-truck":70,"bakery-patisserie":95}},
+      {id:32,name:"Latte",            desc:"Espresso & milk",      cat:"drink",
+        conceptFit:{"fine-dining":75,"casual-dining":85,"fast-food":65,"deli":80,"cafe":100,"food-truck":65,"bakery-patisserie":95}},
+      {id:33,name:"Iced Tea",         desc:"Sweet/unsweet",        cat:"drink",
+        conceptFit:{"fine-dining":40,"casual-dining":80,"fast-food":90,"deli":85,"cafe":85,"food-truck":90,"bakery-patisserie":70}},
+      {id:34,name:"Soda",             desc:"Cola, sprite",         cat:"drink",
+        conceptFit:{"fine-dining":10,"casual-dining":85,"fast-food":100,"deli":80,"cafe":70,"food-truck":95,"bakery-patisserie":50}},
+      {id:35,name:"Beer Pint",        desc:"Local IPA",            cat:"drink",
+        conceptFit:{"fine-dining":40,"casual-dining":90,"fast-food":50,"deli":60,"cafe":70,"food-truck":80,"bakery-patisserie":20}},
+      {id:36,name:"House Wine",       desc:"Red/White",            cat:"drink",
+        conceptFit:{"fine-dining":85,"casual-dining":85,"fast-food":10,"deli":50,"cafe":75,"food-truck":20,"bakery-patisserie":30}},
+      {id:37,name:"Smoothie",         desc:"Berry blend",          cat:"drink",
+        conceptFit:{"fine-dining":10,"casual-dining":70,"fast-food":75,"deli":60,"cafe":90,"food-truck":85,"bakery-patisserie":50}},
+      {id:38,name:"Cocktail",         desc:"Bartender’s choice",    cat:"drink",
+        conceptFit:{"fine-dining":85,"casual-dining":80,"fast-food":30,"deli":40,"cafe":70,"food-truck":70,"bakery-patisserie":10}},
+      {id:39,name:"Juice",            desc:"Fresh squeezed",       cat:"drink",
+        conceptFit:{"fine-dining":60,"casual-dining":80,"fast-food":70,"deli":85,"cafe":95,"food-truck":75,"bakery-patisserie":80}},
+      {id:40,name:"Water",            desc:"Sparkling/still",      cat:"drink",
+        conceptFit:{"fine-dining":90,"casual-dining":80,"fast-food":50,"deli":70,"cafe":85,"food-truck":60,"bakery-patisserie":70}},
+      {id:41,name:"Fries",            desc:"Crispy golden",        cat:"other",
+        conceptFit:{"fine-dining":20,"casual-dining":95,"fast-food":95,"deli":50,"cafe":70,"food-truck":95,"bakery-patisserie":5}},
+      {id:42,name:"Side Salad",       desc:"Mixed greens",         cat:"other",
+        conceptFit:{"fine-dining":70,"casual-dining":85,"fast-food":60,"deli":80,"cafe":80,"food-truck":50,"bakery-patisserie":20}},
+      {id:43,name:"Garlic Bread",     desc:"Butter & herbs",       cat:"other",
+        conceptFit:{"fine-dining":40,"casual-dining":85,"fast-food":70,"deli":60,"cafe":70,"food-truck":75,"bakery-patisserie":30}},
+      {id:44,name:"Coleslaw",         desc:"Creamy slaw",          cat:"other",
+        conceptFit:{"fine-dining":5,"casual-dining":75,"fast-food":80,"deli":70,"cafe":50,"food-truck":80,"bakery-patisserie":5}},
+      {id:45,name:"Pretzel",          desc:"Soft salted",          cat:"other",
+        conceptFit:{"fine-dining":5,"casual-dining":60,"fast-food":70,"deli":50,"cafe":70,"food-truck":85,"bakery-patisserie":60}},
+      {id:46,name:"Rice Pilaf",       desc:"Seasoned rice",        cat:"other",
+        conceptFit:{"fine-dining":60,"casual-dining":85,"fast-food":50,"deli":75,"cafe":75,"food-truck":40,"bakery-patisserie":10}},
+      {id:47,name:"Steamed Veg",      desc:"Seasonal veg",         cat:"other",
+        conceptFit:{"fine-dining":75,"casual-dining":80,"fast-food":40,"deli":75,"cafe":75,"food-truck":30,"bakery-patisserie":20}},
+      {id:48,name:"Mac & Cheese",     desc:"Creamy pasta",         cat:"other",
+        conceptFit:{"fine-dining":20,"casual-dining":90,"fast-food":95,"deli":60,"cafe":75,"food-truck":90,"bakery-patisserie":10}},
+      {id:49,name:"Onion Rings",      desc:"Beer-battered",        cat:"other",
+        conceptFit:{"fine-dining":5,"casual-dining":80,"fast-food":90,"deli":40,"cafe":60,"food-truck":85,"bakery-patisserie":0}},
+      {id:50,name:"Brussels Sprouts", desc:"Roasted",              cat:"other",
+        conceptFit:{"fine-dining":85,"casual-dining":75,"fast-food":10,"deli":20,"cafe":40,"food-truck":5,"bakery-patisserie":0}}
+    ];
+
     const LIMIT = 10;
     let selected = [];
 
@@ -233,15 +317,17 @@
     const menuList = document.getElementById('menuList');
     const feedback = document.getElementById('menuFeedback');
 
+    // ניווט טאבים
     tabs.forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.onclick = () => {
         tabs.forEach(x => x.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.tab).classList.add('active');
-      });
+      };
     });
 
+    // רינדור מנות
     function render() {
       selected = [];
       countEl.textContent = 0;
@@ -253,7 +339,7 @@
           const cd = document.createElement('div');
           cd.className = 'dish-card';
           cd.innerHTML = `<strong>${d.name}</strong><br><small>${d.desc}</small>`;
-          cd.addEventListener('click', () => {
+          cd.onclick = () => {
             if (cd.classList.contains('selected')) {
               cd.classList.remove('selected');
               selected = selected.filter(x => x.id !== d.id);
@@ -263,23 +349,25 @@
             }
             countEl.textContent = selected.length;
             btnNext.disabled = selected.length !== LIMIT;
-          });
+          };
           cont.appendChild(cd);
         });
       });
     }
 
-    document.getElementById('toDishes').addEventListener('click', () => {
+    // כפתורים
+    document.getElementById('toDishes').onclick = () => {
       render();
       document.querySelector('[data-tab=tab2]').click();
-    });
-    document.getElementById('backToConcept').addEventListener('click', () => {
+    };
+    document.getElementById('backToConcept').onclick = () => {
       document.querySelector('[data-tab=tab1]').click();
-    });
-    btnNext.addEventListener('click', () => {
+    };
+    btnNext.onclick = () => {
       document.querySelector('[data-tab=tab3]').click();
       const biz = document.getElementById('businessConcept').value;
-      const sum = selected.reduce((a,d) => a + (d.conceptFit[biz]||50), 0);
+      let sum = 0;
+      selected.forEach(d => sum += (d.conceptFit[biz] || 50));
       const pct = Math.round(sum / selected.length);
       menuList.innerHTML = '';
       selected.forEach(d => {
@@ -289,12 +377,11 @@
       });
       feedback.textContent = `Concept Alignment: ${pct}%`;
       feedback.classList.toggle('warning', pct < 60);
-    });
-    document.getElementById('backToDishes').addEventListener('click', () => {
+    };
+    document.getElementById('backToDishes').onclick = () => {
       document.querySelector('[data-tab=tab2]').click();
-    });
-    document.getElementById('startOver').addEventListener('click', () => location.reload());
-    document.getElementById('downloadPdf').addEventListener('click', () => window.print());
+    };
+    document.getElementById('startOver').onclick = () => location.reload();
   </script>
 
 </body>
