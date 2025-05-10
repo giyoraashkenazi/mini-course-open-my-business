@@ -3,6 +3,7 @@
 Interactive modules
 
 - [Concept Builder 1.1](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/concept-builder-1-1/)
+- [menu Builder 1.3](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/menu-builder-1-3/)
 
 ## Brand Color Palette
 
