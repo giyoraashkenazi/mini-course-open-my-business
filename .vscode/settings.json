@@ -1,4 +1,6 @@
 {
   "liveServer.settings.host": "0.0.0.0",
   "liveServer.settings.port": 5500,
+  // מכוון את שׂורש השרת לתוך תיקיית המודולים בלבד
+  "liveServer.settings.root": "/docs/modules"
 }
