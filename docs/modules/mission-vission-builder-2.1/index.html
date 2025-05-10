@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mission &amp; Vision Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Page & container backgrounds */
+      --bg-page:       #E0F7FA;
+      --bg-container:  #FFFFFF;
+
+      /* Tabs (Step headers) */
+      --tab-step-1:    #64B5F6;
+      --tab-step-2:    #2196F3;
+      --tab-step-3:    #1E88E5;
+
+      /* Brand palette */
+      --brand-blue:    #0052cc;
+      --brand-light:   #4dabf7;
+      --brand-gray:    #6c757d;
+      --brand-white:   #ffffff;
+      --brand-black:   #000000;
+      --brand-bg:      #e0f7fa;
+      --card-bg:       #f0f7fa;
+      --accent:        #00c853;
+    }
+
+    /* Reset & base */
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+    body { background:var(--bg-page); color:var(--brand-black); line-height:1.6; min-height:100vh; }
+    .container { max-width:800px; margin:40px auto; background:var(--bg-container); border-radius:8px; overflow:hidden; }
+
+    /* Header */
+    header { text-align:center; padding:30px 20px; background:var(--brand-blue); color:var(--brand-white); }
+    header h1 { font-size:2rem; margin-bottom:8px; }
+    header p { font-size:1rem; color:rgba(255,255,255,0.85); }
+
+    /* Tabs */
+    .tab-container { display:flex; border-bottom:2px solid var(--brand-gray); }
+    .tab-button {
+      flex:1; padding:15px; background:transparent; border:none; cursor:pointer;
+      font-size:1rem; font-weight:500; color:var(--brand-gray); position:relative;
+      transition:color .3s;
+    }
+    .tab-button.active { color:var(--brand-light); }
+    .tab-button.active::after {
+      content:''; position:absolute; bottom:0; left:0; width:100%; height:3px;
+      background:var(--brand-light);
+    }
+
+    /* Content */
+    .tab-content { display:none; padding:20px; }
+    .tab-content.active { display:block; }
+
+    .card {
+      background:var(--card-bg); border-radius:8px; padding:20px; margin-bottom:20px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    }
+    .card-title { display:flex; align-items:center; gap:10px; font-size:1.2rem; margin-bottom:15px; color:var(--brand-blue); }
+
+    .form-group { margin-bottom:20px; }
+    .form-group label { display:block; margin-bottom:8px; color:var(--brand-gray); font-size:.95rem; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width:100%; padding:12px; border-radius:6px; border:1px solid var(--brand-gray);
+      background:var(--bg-container); color:var(--brand-black); font-size:1rem;
+      transition:border-color .3s, box-shadow .3s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline:none; border-color:var(--brand-blue);
+      box-shadow:0 0 0 3px rgba(0,82,204,0.2);
+    }
+
+    .preview-card .preview-title { font-size:1rem; color:var(--brand-gray); margin-bottom:10px; }
+    .preview-text {
+      padding:15px; border-radius:6px; background:var(--bg-container);
+      color:var(--brand-black);
+    }
+    .highlight { color:var(--accent); font-weight:600; }
+
+    .buttons-container { display:flex; gap:10px; flex-wrap:wrap; margin-top:20px; }
+    .button {
+      flex:1; min-width:120px; padding:12px; border:none; border-radius:6px;
+      background:var(--brand-blue); color:var(--brand-white); font-size:1rem;
+      cursor:pointer; transition:background .3s;
+    }
+    .button:hover { background:var(--brand-light); }
+
+    .tip-card {
+      background:rgba(0,200,83,0.1); border-left:4px solid var(--accent);
+      padding:15px; border-radius:0 6px 6px 0; margin:20px 0;
+    }
+    .tip-title { font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+
+    @media (max-width:600px) {
+      .buttons-container { flex-direction:column; }
+      .tab-button { font-size:.9rem; padding:12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Mission &amp; Vision Builder</h1>
+      <p>Create powerful statements for your food business in three simple steps.</p>
+    </header>
+
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="mission">Mission Statement</button>
+      <button class="tab-button" data-tab="vision">Vision Statement</button>
+    </div>
+
+    <!-- MISSION TAB -->
+    <div id="mission" class="tab-content active">
+      <div class="card">
+        <div class="card-title">🎯 Build Your Mission Statement</div>
+        <p>Formula: <em>“We deliver [product/service] to [target market] so they can [core benefit].”</em></p>
+        <div class="form-group">
+          <label for="productService">What product or service do you deliver?</label>
+          <input type="text" id="productService" placeholder="e.g., barista-quality coffee and fresh sandwiches">
+        </div>
+        <div class="form-group">
+          <label for="targetMarket">Who is your target market?</label>
+          <input type="text" id="targetMarket" placeholder="e.g., suburban commuters">
+        </div>
+        <div class="form-group">
+          <label for="coreBenefit">What is the core benefit you provide?</label>
+          <input type="text" id="coreBenefit" placeholder="e.g., start every day energized and on time">
+        </div>
+        <div class="tip-card">
+          <div class="tip-title">💡 Pro Tip</div>
+          <p>Be specific. Avoid generic phrases like “great food” — instead highlight what makes you unique.</p>
+        </div>
+      </div>
+
+      <div class="card preview-card">
+        <div class="preview-title">Your Mission Preview:</div>
+        <div id="missionPreview" class="preview-text">
+          We deliver <span class="highlight">[product/service]</span> to <span class="highlight">[target market]</span> so they can <span class="highlight">[core benefit]</span>.
+        </div>
+      </div>
+
+      <div class="buttons-container">
+        <button class="button" id="copyMission">Copy to Clipboard</button>
+        <button class="button" id="saveMissionPDF">Save as PDF</button>
+      </div>
+    </div>
+
+    <!-- VISION TAB -->
+    <div id="vision" class="tab-content">
+      <div class="card">
+        <div class="card-title">🔭 Build Your Vision Statement</div>
+        <p>Formula: <em>“To [aspirational goal] [goal description] [scope &amp; impact].”</em></p>
+        <div class="form-group">
+          <label for="aspirationalGoal">What is your aspirational goal?</label>
+          <select id="aspirationalGoal">
+            <option value="become">To become…</option>
+            <option value="redefine">To redefine…</option>
+            <option value="transform">To transform…</option>
+            <option value="revolutionize">To revolutionize…</option>
+            <option value="inspire">To inspire…</option>
+            <option value="lead">To lead…</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="goalDescription">Describe your goal</label>
+          <input type="text" id="goalDescription" placeholder="e.g., the flagship mobile café in Queens">
+        </div>
+        <div class="form-group">
+          <label for="scopeImpact">What is the scope and impact?</label>
+          <textarea id="scopeImpact" rows="3" placeholder="e.g., serving premium, ethically sourced coffee while fostering community"></textarea>
+        </div>
+        <div class="tip-card">
+          <div class="tip-title">💡 Pro Tip</div>
+          <p>Make it ambitious yet achievable — think about the change you want to make.</p>
+        </div>
+      </div>
+
+      <div class="card preview-card">
+        <div class="preview-title">Your Vision Preview:</div>
+        <div id="visionPreview" class="preview-text">
+          To <span class="highlight">[aspirational goal]</span> <span class="highlight">[goal description]</span> <span class="highlight">[scope &amp; impact]</span>.
+        </div>
+      </div>
+
+      <div class="buttons-container">
+        <button class="button" id="copyVision">Copy to Clipboard</button>
+        <button class="button" id="saveVisionPDF">Save as PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Tabs ---
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // --- Mission live preview ---
+    const ps = document.getElementById('productService'),
+          tm = document.getElementById('targetMarket'),
+          cb = document.getElementById('coreBenefit'),
+          mp = document.getElementById('missionPreview');
+    function updMission() {
+      mp.innerHTML = `We deliver <span class="highlight">${ps.value||'[product/service]'}</span>`
+                   + ` to <span class="highlight">${tm.value||'[target market]'}</span>`
+                   + ` so they can <span class="highlight">${cb.value||'[core benefit]'}</span>.`;
+    }
+    [ps,tm,cb].forEach(el=>el.addEventListener('input',updMission));
+
+    // --- Vision live preview ---
+    const ag = document.getElementById('aspirationalGoal'),
+          gd = document.getElementById('goalDescription'),
+          si = document.getElementById('scopeImpact'),
+          vp = document.getElementById('visionPreview');
+    function updVision() {
+      vp.innerHTML = `To <span class="highlight">${ag.value}</span>`
+                   + ` <span class="highlight">${gd.value||'[goal description]'}</span>`
+                   + ` <span class="highlight">${si.value||'[scope & impact]'}</span>.`;
+    }
+    [ag,gd,si].forEach(el=>el.addEventListener('change',updVision));
+    [gd,si].forEach(el=>el.addEventListener('input',updVision));
+
+    // --- Copy & PDF mocks ---
+    document.getElementById('copyMission').onclick = () =>
+      navigator.clipboard.writeText(mp.textContent).then(_=>alert('Mission copied!'));
+    document.getElementById('copyVision').onclick = () =>
+      navigator.clipboard.writeText(vp.textContent).then(_=>alert('Vision copied!'));
+    document.getElementById('saveMissionPDF').onclick = () =>
+      alert('PDF export would run here.');
+    document.getElementById('saveVisionPDF').onclick = () =>
+      alert('PDF export would run here.');
+  </script>
+
+</body>
+</html>
