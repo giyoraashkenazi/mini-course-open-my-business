@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SWOT Matrix Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      /* Brand Color Palette */
+      --bg-page: #E0F7FA;
+      --bg-container: #FFFFFF;
+      --tab-step-1: #64B5F6;
+      --tab-step-2: #2196F3;
+      --tab-step-3: #1E88E5;
+      --brand-blue: #0052cc;
+      --brand-light: #4dabf7;
+      --brand-gray: #6c757d;
+      --brand-white: #ffffff;
+      --brand-black: #000000;
+      --strength-color: #4caf50;
+      --weakness-color: #f44336;
+      --opportunity-color: #2196f3;
+      --threat-color: #ff9800;
+      --accent: var(--tab-step-2);
+      --text-primary: var(--brand-black);
+      --text-secondary: #555;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition-speed: 0.3s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      padding: 16px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--bg-container);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+
+    header {
+      background: var(--brand-blue);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    header h1 { margin-bottom: 8px; }
+    header p {
+      margin: 0;
+      font-weight: 300;
+      font-size: 0.95rem;
+    }
+
+    .setup {
+      padding: 16px;
+      background: var(--brand-light);
+    }
+    .setup label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .setup select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid var(--brand-gray);
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--bg-container);
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: color var(--transition-speed);
+      border-bottom: 3px solid transparent;
+    }
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 16px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    .swot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .quad {
+      background: #f9f9f9;
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .quad h2 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .quad h2 .count {
+      float: right;
+      font-weight: 500;
+    }
+    .drop-zone {
+      min-height: 80px;
+      border: 2px dashed var(--text-secondary);
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      transition: background var(--transition-speed),
+        border-color var(--transition-speed);
+      background: white;
+    }
+    .drop-zone.drag-over {
+      background: rgba(33, 150, 243, 0.1);
+      border-color: var(--accent);
+    }
+
+    .scenario-pool {
+      margin-bottom: 16px;
+    }
+    .scenario-pool h3 {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+    .scenario-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: white;
+      padding: 8px;
+      border-radius: 4px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .card {
+      position: relative;
+      background: #fff;
+      padding: 8px 28px 8px 12px;
+      border-radius: 4px;
+      box-shadow: var(--card-shadow);
+      cursor: move;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .card .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      color: #999;
+      cursor: pointer;
+    }
+    .card .remove-btn:hover {
+      color: #333;
+    }
+    .card.placed {
+      cursor: move;
+      opacity: 0.9;
+    }
+    .card.correct { border-left: 4px solid var(--strength-color); }
+    .card.incorrect { border-left: 4px solid var(--threat-color); }
+
+    .custom-add {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .custom-add .note {
+      flex: 0 0 120px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .custom-add input,
+    .custom-add select {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--brand-gray);
+      border-radius: 4px;
+    }
+    .custom-add button {
+      padding: 8px 16px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+    }
+    .custom-add button:hover {
+      background: var(--tab-step-3);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .actions button {
+      flex: 1;
+      padding: 12px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition-speed);
+    }
+    .actions button:hover {
+      background: var(--tab-step-3);
+    }
+
+    .feedback {
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--brand-light);
+      border-left: 4px solid var(--accent);
+      display: none;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SWOT Matrix Builder</h1>
+      <p>Analyze your new food business idea with a classic SWOT framework.</p>
+    </header>
+
+    <div class="setup">
+      <label for="setupType">Will you launch from 0 or upgrade existing?</label>
+      <select id="setupType">
+        <option value="new">Brand-New Launch (from 0)</option>
+        <option value="upgrade">Upgrade Existing Infrastructure</option>
+      </select>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="activity">Activity</div>
+      <div class="tab" data-tab="info">Info</div>
+    </div>
+
+    <!-- ACTIVITY -->
+    <div id="activity" class="tab-content active">
+      <div class="swot-grid">
+        <div class="quad strengths">
+          <h2>Strengths <span class="count" id="count-strengths">0</span></h2>
+          <div class="drop-zone" data-quad="strengths"></div>
+        </div>
+        <div class="quad weaknesses">
+          <h2>Weaknesses <span class="count" id="count-weaknesses">0</span></h2>
+          <div class="drop-zone" data-quad="weaknesses"></div>
+        </div>
+        <div class="quad opportunities">
+          <h2>Opportunities <span class="count" id="count-opportunities">0</span></h2>
+          <div class="drop-zone" data-quad="opportunities"></div>
+        </div>
+        <div class="quad threats">
+          <h2>Threats <span class="count" id="count-threats">0</span></h2>
+          <div class="drop-zone" data-quad="threats"></div>
+        </div>
+      </div>
+
+      <!-- Visible pool of draggable cards -->
+      <div class="scenario-pool">
+        <h3>Business Scenarios</h3>
+        <div id="scenarioPool" class="scenario-cards"></div>
+      </div>
+
+      <!-- Custom add -->
+      <div class="custom-add">
+        <span class="note">Add up to 4 custom:</span>
+        <input id="customText" placeholder="Enter scenario…" />
+        <select id="customQuad">
+          <option value="strengths">Strength</option>
+          <option value="weaknesses">Weakness</option>
+          <option value="opportunities">Opportunity</option>
+          <option value="threats">Threat</option>
+        </select>
+        <button id="customAdd">Add</button>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button id="downloadPdf">Download as PDF</button>
+        <button id="reset">Reset Activity</button>
+      </div>
+      <div id="feedback" class="feedback"></div>
+    </div>
+
+    <!-- INFO -->
+    <div id="info" class="tab-content">
+      <h2 style="color: var(--text-secondary);">
+        🧠 <strong>SWOT Analysis</strong> — map your internal <em>Strengths/Weaknesses</em> and
+        external <em>Opportunities/Threats</em>. Drag each scenario into the correct box, then
+        review your summary.
+      </h2>
+    </div>
+  </div>
+
+  <script>
+    const scenarioSets = {
+      new: [
+        { text: "Access to skilled culinary professionals", quad: "strengths" },
+        { text: "Unique signature recipe designed for your launch", quad: "strengths" },
+        { text: "Chance to form strategic partnerships from day one", quad: "strengths" },
+        { text: "All brand-new equipment — high initial capital", quad: "weaknesses" },
+        { text: "Limited initial marketing budget", quad: "weaknesses" },
+        { text: "High upfront investment required", quad: "weaknesses" },
+        { text: "Opportunity to build strong customer loyalty early", quad: "opportunities" },
+        { text: "Ability to enter & capture emerging niche markets", quad: "opportunities" },
+        { text: "Growing demand for sustainable & healthy options", quad: "opportunities" },
+        { text: "Economic fluctuations impacting startup funding", quad: "threats" },
+        { text: "New entrants intensifying competition", quad: "threats" },
+        { text: "Potential supply chain instability at launch", quad: "threats" }
+      ],
+      upgrade: [
+        { text: "Existing operational team ready to scale", quad: "strengths" },
+        { text: "Proven menu items with loyal fans", quad: "strengths" },
+        { text: "Upgraded facilities reduce build-out time", quad: "strengths" },
+        { text: "High upfront investment required", quad: "weaknesses" },
+        { text: "Limited initial marketing budget", quad: "weaknesses" },
+        { text: "Integration with old systems could slow progress", quad: "weaknesses" },
+        { text: "Leverage existing customer base for referrals", quad: "opportunities" },
+        { text: "Cross-sell new products to current clientele", quad: "opportunities" },
+        { text: "Fresh marketing to rejuvenate brand", quad: "opportunities" },
+        { text: "Regulatory changes may require costly updates", quad: "threats" },
+        { text: "Competitors drawn by your established location", quad: "threats" },
+        { text: "Supply disruptions in legacy contracts", quad: "threats" }
+      ]
+    };
+
+    let customCount = 0;
+
+    function shuffle(a) {
+      return a.sort(() => Math.random() - 0.5);
+    }
+
+    function makeCard(text, quad) {
+      const d = document.createElement("div");
+      d.className = "card";
+      d.draggable = true;
+      d.dataset.quad = quad;
+      d.textContent = text;
+      // remove button
+      const btn = document.createElement("button");
+      btn.className = "remove-btn";
+      btn.innerHTML = "&times;";
+      btn.onclick = e => {
+        e.stopPropagation();
+        d.remove();
+        customCount = Math.max(0, customCount - (d.classList.contains("placed") ? 0 : 1));
+        updateCounts();
+      };
+      d.appendChild(btn);
+      return d;
+    }
+
+    function initScenarios() {
+      customCount = 0;
+      document.querySelectorAll(".drop-zone").forEach((z) => (z.innerHTML = ""));
+      document.querySelectorAll(".count").forEach((c) => (c.textContent = "0"));
+      document.getElementById("feedback").style.display = "none";
+      const pool = document.getElementById("scenarioPool");
+      pool.innerHTML = "";
+      const key = document.getElementById("setupType").value;
+      shuffle(scenarioSets[key]).forEach((s) => {
+        pool.appendChild(makeCard(s.text, s.quad));
+      });
+      attachDrag();
+    }
+
+    function attachDrag() {
+      document.querySelectorAll(".card").forEach((c) => {
+        c.addEventListener("dragstart", () => c.classList.add("dragging"));
+        c.addEventListener("dragend", () => c.classList.remove("dragging"));
+      });
+      document.querySelectorAll(".drop-zone, #scenarioPool").forEach((zone) => {
+        zone.addEventListener("dragover", (e) => e.preventDefault());
+        zone.addEventListener("dragenter", () => zone.classList.add("drag-over"));
+        zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+        zone.addEventListener("drop", function (e) {
+          e.preventDefault();
+          const card = document.querySelector(".dragging");
+          if (!card) return;
+          const dest = this.id === "scenarioPool" ? "pool" : this.dataset.quad;
+          const ok = card.dataset.quad;
+          if (dest !== "pool") {
+            const copy = makeCard(card.textContent.trim(), ok);
+            copy.classList.add("placed");
+            copy.classList.add(dest === ok ? "correct" : "incorrect");
+            this.appendChild(copy);
+            card.remove();
+            showFeedback(
+              dest === ok ? "✅ Correct!" : `❌ Actually a “${ok}”`,
+              dest === ok ? "success" : "error"
+            );
+          } else {
+            // moving back to pool
+            this.appendChild(card);
+          }
+          zone.classList.remove("drag-over");
+          updateCounts();
+          attachDrag();
+        });
+      });
+    }
+
+    function updateCounts() {
+      ["strengths", "weaknesses", "opportunities", "threats"].forEach((q) => {
+        const cnt = document.querySelectorAll(`.drop-zone[data-quad="${q}"] .card`).length;
+        document.getElementById(`count-${q}`).textContent = cnt;
+      });
+    }
+
+    function showFeedback(msg) {
+      const fb = document.getElementById("feedback");
+      fb.textContent = msg;
+      fb.style.display = "block";
+      setTimeout(() => (fb.style.display = "none"), 2500);
+    }
+
+    // Custom items
+    document.getElementById("customAdd").addEventListener("click", () => {
+      const txtEl = document.getElementById("customText");
+      const txt = txtEl.value.trim();
+      const q = document.getElementById("customQuad").value;
+      if (!txt || customCount >= 4) return;
+      document.getElementById("scenarioPool").appendChild(makeCard(txt, q));
+      txtEl.value = "";
+      customCount++;
+      attachDrag();
+    });
+
+    // Tabs
+    document.querySelectorAll(".tab").forEach((t) => {
+      t.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((x) => x.classList.remove("active"));
+        t.classList.add("active");
+        document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+        document.getElementById(t.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Reset & PDF
+    document.getElementById("setupType").addEventListener("change", initScenarios);
+    document.getElementById("reset").addEventListener("click", initScenarios);
+    document.getElementById("downloadPdf").addEventListener("click", () => {
+      alert("📄 In production this would generate your SWOT PDF.");
+    });
+
+    // Initial load
+    initScenarios();
+  </script>
+</body>
+</html>

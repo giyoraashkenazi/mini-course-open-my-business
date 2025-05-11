@@ -6,6 +6,7 @@ Interactive modules
 - [location builder 1-2](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/location-builder-1-2/)
 - [menu Builder 1-3](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/menu-builder-1-3/)
 - [mission vission Builder 2-1](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/mission-vission-builder-2-1/)
+- [swot matrix Builder 2-2](https://giyoraashkenazi.github.io/mini-course-open-my-business/modules/swot-matrix-builder-2-2/)
 
 ## Brand Color Palette
 
